@@ -1,0 +1,10 @@
+{
+    "logininfo" : {  
+        "SignUp": "Зарегистироваться",
+        "Login": "Войти"
+    },
+
+    "homepage": {
+        "title": "Title"
+   }
+}

@@ -1,0 +1,10 @@
+{ 
+   "logininfo" : {  
+       "SignUp": "SignUp",
+        "Login": "Login"
+   },
+
+   "homepage": {
+        "title": "Title"
+   }
+}

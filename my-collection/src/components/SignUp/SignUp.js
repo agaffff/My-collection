@@ -4,6 +4,8 @@ import {setUser} from 'store/slices/userSlice';
 import {useDispatch} from 'react-redux';
 import { useHistory } from "react-router-dom";
 
+
+
 const SignUp = () => {
     const dispatch =useDispatch();
     const {push} = useHistory();
@@ -22,11 +24,13 @@ const SignUp = () => {
         })
         .catch(console.error)
     }
+
+    
     return (
         
             <Form title="register"
             handleClick={handleRegister} />
-        
+            
     )
 }
 
