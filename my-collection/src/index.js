@@ -5,18 +5,22 @@ import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {store} from 'store';
 import './index.css';
+import { StyledEngineProvider } from '@mui/material/styles';
 import App from './App/App';
 import reportWebVitals from './reportWebVitals';
 import './firebase';
-
+    
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
     <Provider store={store}>
+    <StyledEngineProvider injectFirst>
     <App />
+    </StyledEngineProvider>
     </Provider>
     </BrowserRouter>
   </React.StrictMode>,
+
   document.getElementById('root')
 );
 

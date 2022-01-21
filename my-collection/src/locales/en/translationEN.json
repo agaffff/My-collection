@@ -1,10 +1,29 @@
 { 
    "logininfo" : {  
        "SignUp": "SignUp",
-        "Login": "Login"
+       "EmailAddress":"Email Address",
+        "Password": "Password",
+        "SignIn": "SignIn",
+        "DontHaveAnAccountSignUp": "Don't have an account? Sign Up"
    },
 
    "homepage": {
         "title": "Title"
-   }
+   },
+   "button": {
+     "ButtonAddCollection":"Add Collection",
+     "ButtonLogOut": "Log Out",
+     "Cancel":"Cancel",
+     "Save":"Save"
+    },
+    "editcollection":{
+         "Collection":"Collection",
+         "Pleasefillintheinformationaboutthecollection":"Please fill in the information about the collection.",
+         "Name":"Name",
+         "Thema":"Thema",
+         "Description":"Description",
+         "Image":"Image",
+         "Standart filelds":"Standart filelds",
+         "Advanced fields":"Advanced fields"
+    }
 }

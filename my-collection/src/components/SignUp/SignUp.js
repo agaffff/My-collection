@@ -1,10 +1,8 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import {Form} from '../Form/Form';
+import Form from '../Form/Form';
 import {setUser} from 'store/slices/userSlice';
 import {useDispatch} from 'react-redux';
 import { useHistory } from "react-router-dom";
-
-
 
 const SignUp = () => {
     const dispatch =useDispatch();
@@ -24,14 +22,13 @@ const SignUp = () => {
         })
         .catch(console.error)
     }
-
     
     return (
         
-            <Form title="register"
+            <Form title="SignUp"
             handleClick={handleRegister} />
             
     )
 }
 
-export {SignUp}
+export default SignUp

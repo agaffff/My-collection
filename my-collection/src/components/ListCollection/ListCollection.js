@@ -2,39 +2,41 @@ import { useState, useEffect } from "react";
 import {db} from "../../firebase";
 import {collection, getDocs, addDoc} from "firebase/firestore";
 
-export default function ListCollection() {
-    const [photos, setPhotos] = useState([]);
-    const [newPhotoName, setNewPhotoName] = useState("");
-    const [newPhotoTag, setnewPhotoTag] = useState("");
+export default function ListCollection({path}) {
+    const [books, setBooks] = useState([]);
+    const [newBookName, setNewBookName] = useState("");
+    const [newBookTag, setNewBookTag] = useState("");
+    const pathAll = 'all-collections/'
+    const booksCollectionRef = collection(db, path);
 
-    const photosCollectionRef = collection(db, 'photos');
+   
 
     useEffect(() => {
-      const getPhotos = async ()=>{
-      const data = await getDocs(photosCollectionRef);
-      setPhotos(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
+      const getBooks = async ()=>{
+      const data = await getDocs(booksCollectionRef);
+      setBooks(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
 
       }
-     getPhotos();
+     getBooks();
     }, [])
 
-  const createPhoto= async ()=>{
-    await addDoc(photosCollectionRef, {name:newPhotoName, tag:newPhotoTag, value:1});
+  const createBook= async ()=>{
+    await addDoc(booksCollectionRef, {name:newBookName, tag:newBookTag, value:1});
   }
   return (
-        <div>
+        <div style={{ height: 400, width: '100%' }}>
           <h1>ListCollection</h1> 
-          <input onChange={(e)=>{setNewPhotoName(e.target.value)}}placeholder="Name" ></input>
-          <input onChange={(e)=>{setnewPhotoTag(e.target.value)}}placeholder="Tag" ></input>
+          <input onChange={(e)=>{setNewBookName(e.target.value)}}placeholder="Name book" ></input>
+          <input onChange={(e)=>{setNewBookTag(e.target.value)}}placeholder="Tag" ></input>
 
-          <button onClick={createPhoto} >Create</button>
+          <button onClick={createBook} >Create</button>
 
-           {photos.map((photo)=>{
+           {books.map((book)=>{
              return(
                <div>
                   {''}
-                    <p >Name: {photo.name}</p>
-                    <p >Name: {photo.tag}</p>
+                    <p >Name: {book.name}</p>
+                    <p >Name: {book.tag}</p>
                   
                </div>
              );

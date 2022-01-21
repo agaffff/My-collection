@@ -1,10 +1,30 @@
 {
     "logininfo" : {  
         "SignUp": "Зарегистироваться",
-        "Login": "Войти"
+        "EmailAddress":"Адрес электронной почты",
+        "Password": "Пароль",
+        "SignIn": "Войти",
+        "DontHaveAnAccountSignUp": "У вас нет аккаунта? Зарегистрироваться"
     },
 
     "homepage": {
         "title": "Title"
-   }
+   },
+   "button": {
+    "ButtonAddCollection":"Добавить коллекцию",
+    "ButtonLogOut": "Выход",
+    "Cancel":"Отмена",
+    "Save":"Сохранить"
+   },
+   "editcollection":{
+    "Collection":"Коллекция",
+    "Pleasefillintheinformationaboutthecollection":"Пожалуйста заполните информацию о коллекции.",
+    "Name":"Название",
+    "Thema":"Тема",
+    "Description":"Описание",
+    "Image":"Картинка",
+    "Standart filelds":"Стандартные поля",
+    "Advanced fields":"Расширенные поля"
+}
+
 }

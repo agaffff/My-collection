@@ -1,8 +1,9 @@
-import {Form} from '../Form/Form';
+import Form from '../Form/Form';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {useDispatch} from 'react-redux';
 import {setUser} from 'store/slices/userSlice';
 import { useHistory } from 'react-router-dom';
+
 
 const Login = () => {
     const dispatch =useDispatch();
@@ -22,12 +23,9 @@ const Login = () => {
         .catch(console.error)
     }
     return (
-       
-        
-            <Form title="sign in"
+            <Form title="SignIn"
             handleClick={handleLogin} />
-        
     )
 }
 
-export {Login}
+export default Login
