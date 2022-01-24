@@ -12,6 +12,7 @@
    },
    "button": {
      "ButtonAddCollection":"Add Collection",
+     "ButtonAddItem":"Add",
      "ButtonLogOut": "Log Out",
      "Cancel":"Cancel",
      "Save":"Save"
@@ -24,6 +25,7 @@
          "Description":"Description",
          "Image":"Image",
          "Standart filelds":"Standart filelds",
-         "Advanced fields":"Advanced fields"
+         "Advanced fields":"Advanced fields",
+         "Tag":"Tag"
     }
 }

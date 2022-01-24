@@ -18,7 +18,6 @@ const [newName, setNewName] = useState('');
 const [newThema, setNewThema] = useState('');
 const [newDescription, setNewDescription] = useState('');
 const [newImage, setNewImage] = useState('');
-const [newStandartFilelds, setNewStandartFilelds] = useState('');
 const [newAdvancedFields, setNewAdvancedFields] = useState('');
 
 const path = 'all-collections/';
@@ -41,11 +40,11 @@ const createCollection= async ()=>{
      thema:newThema, 
      description:newDescription, 
      image:newImage, 
-     standartfilelds: 
-     newStandartFilelds, 
      advancedfields:newAdvancedFields,
     userId:id ,
     dateCreate: new Date()});
+
+    handleClose();
 }
 
 
@@ -111,16 +110,6 @@ const createCollection= async ()=>{
             fullWidth
             variant="standard"
             onChange={(e)=>{setNewImage(e.target.value)}}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="standartfilelds"
-            label={t('editcollection.Standart filelds')}
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(e)=>{setNewStandartFilelds(e.target.value)}}
           />
           <TextField
             autoFocus

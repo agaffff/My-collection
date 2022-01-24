@@ -12,6 +12,7 @@
    },
    "button": {
     "ButtonAddCollection":"Добавить коллекцию",
+    "ButtonAddItem":"Добавить",
     "ButtonLogOut": "Выход",
     "Cancel":"Отмена",
     "Save":"Сохранить"
@@ -24,7 +25,8 @@
     "Description":"Описание",
     "Image":"Картинка",
     "Standart filelds":"Стандартные поля",
-    "Advanced fields":"Расширенные поля"
+    "Advanced fields":"Расширенные поля",
+    "Tag":"Тэг"
 }
 
 }

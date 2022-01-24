@@ -7,6 +7,7 @@ import {db} from "../../firebase";
 import {collection, getDocs, addDoc} from "firebase/firestore";
 import Items from "components/Items/Items";
 import {useAuth} from 'hooks/use-auth';
+import EditItem from "components/EditItem/EditItem";
 
 
 
@@ -62,6 +63,7 @@ const Collection = () => {
                                         <IconButton disabled={!isAuth}>
                                         <DeleteForever/>
                                         </IconButton>
+                                        <EditItem perem={collection.id}/>
                                     </CardActions>
                                 </Card>
 
