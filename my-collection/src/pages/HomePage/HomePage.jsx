@@ -1,28 +1,16 @@
-import ListCollection from 'components/ListCollection/ListCollection';
-import HeaderPage from 'pages/HeaderPage/HeaderPage';
 import Container from '@mui/material/Container';
 import Collection from 'components/Collection/Collection';
-
-
+import Header from 'components/Header/Header';
 
 const HomePage = () => {
- const pathItems = 'all-collections/collection-books/items/';
- const pathCollections = 'all-collections/';
-
-
-
   return (
     <>
- 
-      <HeaderPage />
+      <Header />
       <Collection/>
       <Container 
       sx={{mt:"1rem"}}>
-     
-      <ListCollection path = {pathItems} />
       </Container>
     ) 
-     
 )
 </>
   )

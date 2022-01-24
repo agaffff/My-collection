@@ -7,51 +7,61 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {useTranslation} from 'react-i18next';
 import {db} from "../../firebase";
-import {collection, getDocs, addDoc} from "firebase/firestore";
-import { useState, useEffect } from 'react';
+import {getDoc} from "firebase/firestore";
+import { useState} from 'react';
 import {useAuth} from 'hooks/use-auth';
+import { doc, updateDoc } from "firebase/firestore";
 
 
-const EditCollection=({pathEdit})=> {
-// const [collection, setCollection] = useState([]);
-const [newName, setNewName] = useState('');
-const [newThema, setNewThema] = useState('');
-const [newDescription, setNewDescription] = useState('');
-const [newImage, setNewImage] = useState('');
-const [newAdvancedFields, setNewAdvancedFields] = useState('');
-
-const path = 'all-collections/';
-const CollectionRef = collection(db, path);
+const EditCollection=({collectionId})=> {
+const [Name, setName] = useState('');
+const [Thema, setThema] = useState('');
+const [Description, setDescription] = useState('');
+const [Image, setImage] = useState('');
+const [AdvancedFields, setAdvancedFields] = useState('');
 
 const {t} = useTranslation();
-const {id} = useAuth();
-// useEffect(() => {
-//     const getCollection = async ()=>{
-//     const data = await getDocs(CollectionRef);
-//     setCollection(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
+const [open, setOpen] = useState(false);
+const {isAuth} = useAuth();
 
-//     }
-//     getCollection();
-//   }, [])
+const getCollectionById = async () => {
+  const docRef = doc(db, "all-collections", collectionId);
+  const docSnap = await getDoc(docRef);
 
-const createCollection= async ()=>{
-    //await setDoc(doc(db, "cities", "new-city-id"), data);
-  await addDoc(CollectionRef, {name:newName,
-     thema:newThema, 
-     description:newDescription, 
-     image:newImage, 
-     advancedfields:newAdvancedFields,
-    userId:id ,
-    dateCreate: new Date()});
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+    console.log("name:", docSnap.data().name);
+    setName(docSnap.data().name);
+    setThema(docSnap.data().thema);
+    setDescription(docSnap.data().description);
+    setImage(docSnap.data().image);
+    setAdvancedFields(docSnap.data().advancedfields);
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+  }
+}
 
-    handleClose();
+const handleUpdate = async (e) => {
+  e.preventDefault()
+  const taskDocRef = doc(db, "all-collections", collectionId)
+  try{
+    await updateDoc(taskDocRef, {
+      name:Name,
+     thema:Thema, 
+     description:Description,
+     image:Image,
+     advancedFields:AdvancedFields 
+    })
+    handleClose()
+  } catch (err) {
+    alert(err)
+  }    
 }
 
 
-
-  const [open, setOpen] = useState(false);
-
   const handleClickOpen = () => {
+    getCollectionById();
     setOpen(true);
   };
 
@@ -61,8 +71,8 @@ const createCollection= async ()=>{
 
   return (
     <>
-      <Button color="inherit" variant="outlined" onClick={handleClickOpen}>
-      {t('button.ButtonAddCollection')}
+      <Button disabled={!isAuth} size="small" color="primary" onClick={handleClickOpen}>
+      {t('button.ButtonEditCollection')}
       </Button>
       <Dialog open={open} onClose={handleClose}>
       
@@ -79,7 +89,8 @@ const createCollection= async ()=>{
             type="text"
             fullWidth
             variant="standard"
-            onChange={(e)=>{setNewName(e.target.value)}}
+            value={Name}
+            onChange={(e)=>{setName(e.target.value)}}
           />
            <TextField
             autoFocus
@@ -89,7 +100,8 @@ const createCollection= async ()=>{
             type="text"
             fullWidth
             variant="standard"
-            onChange={(e)=>{setNewThema(e.target.value)}}
+            value={Thema}
+            onChange={(e)=>{setThema(e.target.value)}}
           />
           <TextField
             autoFocus
@@ -99,7 +111,8 @@ const createCollection= async ()=>{
             type="text"
             fullWidth
             variant="standard"
-            onChange={(e)=>{setNewDescription(e.target.value)}}
+            value={Description}
+            onChange={(e)=>{setDescription(e.target.value)}}
           />
           <TextField
             autoFocus
@@ -109,7 +122,8 @@ const createCollection= async ()=>{
             type="url"
             fullWidth
             variant="standard"
-            onChange={(e)=>{setNewImage(e.target.value)}}
+            value={Image}
+            onChange={(e)=>{setImage(e.target.value)}}
           />
           <TextField
             autoFocus
@@ -119,14 +133,15 @@ const createCollection= async ()=>{
             type="text"
             fullWidth
             variant="standard"
-            onChange={(e)=>{setNewAdvancedFields(e.target.value)}}
+            value={AdvancedFields}
+            onChange={(e)=>{setAdvancedFields(e.target.value)}}
           />
           
            
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>{t('button.Cancel')}</Button>
-          <Button onClick={createCollection} >{t('button.Save')}</Button>
+          <Button onClick={handleUpdate} >{t('button.Save')}</Button>
         </DialogActions>
       </Dialog>
     </>

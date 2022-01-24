@@ -28,7 +28,7 @@ const Items = ({collectionId}) => {
       
     return (
         <div>
-            <Container maxWidth="md" sx={{display:"flex", flexDirection:"row", justifyContent :"space-evenly"}} >
+            <Container maxWidth="md" sx={{display:"flex", flexDirection:"row", flexWrap:"wrap", justifyContent :"space-evenly"}} >
                     {items.map((item)=>(
                 <Grid item key={item} >
                     <Card sx={{mt:"3rem", mb:"6rem", height:250, width:250 }}>

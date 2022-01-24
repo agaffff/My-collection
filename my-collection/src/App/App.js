@@ -4,7 +4,6 @@ import HomePage from 'pages/HomePage/HomePage';
 import Login from 'components/Login/Login';
 import ChangerLanguage from 'components/ChangerLanguage/ChangerLanguage';
 import {Switch, Route} from 'react-router-dom';
-import ListCollection from 'components/ListCollection/ListCollection';
 import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import { useTheme, ThemeProvider, createTheme } from '@mui/material/styles';
@@ -46,7 +45,6 @@ function App() {
      <Route exact path="/" component={HomePage}/>
      <Route exact path="/login" component={Login}/>
      <Route exact path="/register" component={SignUp}/>
-     <Route exact path="/listCollection" component={ListCollection}/>
    </Switch>
    </>
   );

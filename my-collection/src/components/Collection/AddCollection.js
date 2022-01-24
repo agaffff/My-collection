@@ -7,21 +7,24 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {useTranslation} from 'react-i18next';
 import {db} from "../../firebase";
-import {collection, getDocs, addDoc, doc} from "firebase/firestore";
+import {collection, getDocs, addDoc} from "firebase/firestore";
 import { useState, useEffect } from 'react';
 import {useAuth} from 'hooks/use-auth';
 
 
-const EditItem=({perem}) => {
+const AddCollection=({pathEdit})=> {
 
 const [newName, setNewName] = useState('');
-const [newTag, setNewTag] = useState('');
+const [newThema, setNewThema] = useState('');
+const [newDescription, setNewDescription] = useState('');
+const [newImage, setNewImage] = useState('');
+const [newAdvancedFields, setNewAdvancedFields] = useState('');
 
 const path = 'all-collections/';
 const CollectionRef = collection(db, path);
 
 const {t} = useTranslation();
-const {id,isAuth} = useAuth();
+const {id} = useAuth();
 // useEffect(() => {
 //     const getCollection = async ()=>{
 //     const data = await getDocs(CollectionRef);
@@ -31,17 +34,20 @@ const {id,isAuth} = useAuth();
 //     getCollection();
 //   }, [])
 
-const createItem= async ()=>{
-  const itemsRef =collection(db, "all-collections/"+perem+"/items");
-  await addDoc(itemsRef, {
-    name:newName,
-    tag:newTag, 
+const createCollection= async ()=>{
+    //await setDoc(doc(db, "cities", "new-city-id"), data);
+  await addDoc(CollectionRef, {name:newName,
+     thema:newThema, 
+     description:newDescription, 
+     image:newImage, 
+     advancedfields:newAdvancedFields,
     userId:id ,
     dateCreate: new Date()});
-   console.log("Added new item");
-   handleClose();
+
+    handleClose();
 }
-//const res = await db.collection('items').doc('DC').delete();
+
+
 
   const [open, setOpen] = useState(false);
 
@@ -53,11 +59,10 @@ const createItem= async ()=>{
     setOpen(false);
   };
 
-
-    return (
-        <>
-           <Button  disabled={!isAuth} color="inherit" variant="outlined" onClick={handleClickOpen}>
-      {t('button.ButtonAddItem')}
+  return (
+    <>
+      <Button color="inherit" variant="outlined" onClick={handleClickOpen}>
+      {t('button.ButtonAddCollection')}
       </Button>
       <Dialog open={open} onClose={handleClose}>
       
@@ -79,18 +84,49 @@ const createItem= async ()=>{
            <TextField
             autoFocus
             margin="dense"
-            id="tag"
-            label={t('editcollection.Tag')}
+            id="thema"
+            label={t('editcollection.Thema')}
             type="text"
             fullWidth
             variant="standard"
-            onChange={(e)=>{setNewTag(e.target.value)}}
+            onChange={(e)=>{setNewThema(e.target.value)}}
           />
-         
+          <TextField
+            autoFocus
+            margin="dense"
+            id="description"
+            label={t('editcollection.Description')}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e)=>{setNewDescription(e.target.value)}}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="image"
+            label={t('editcollection.Image')}
+            type="url"
+            fullWidth
+            variant="standard"
+            onChange={(e)=>{setNewImage(e.target.value)}}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="advancedfields"
+            label={t('editcollection.Advanced fields')}
+            type="text"
+            fullWidth
+            variant="standard"
+            onChange={(e)=>{setNewAdvancedFields(e.target.value)}}
+          />
+          
+           
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>{t('button.Cancel')}</Button>
-          <Button onClick={createItem} >{t('button.Save')}</Button>
+          <Button onClick={createCollection} >{t('button.Save')}</Button>
         </DialogActions>
       </Dialog>
     </>
@@ -98,4 +134,4 @@ const createItem= async ()=>{
 }
 
 
-export default EditItem
+export default AddCollection

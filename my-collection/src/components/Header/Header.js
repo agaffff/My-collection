@@ -2,8 +2,9 @@ import { AppBar, Container, Toolbar, Paper,Grid, Typography, Box, IconButton} fr
 import AddAPhotoRoundedIcon from '@mui/icons-material/AddAPhotoRounded';
 import ButtonAuth from 'components/ButtonsAuth/ButtonAuth';
 import SearchControl from 'components/SearchControl/SearchControl';
+import MenuUser from 'components/MenuUser/MenuUser';
 
-const HeaderPage = () => {
+const Header = () => {
         return (
         <>
             <AppBar position="static">
@@ -18,6 +19,7 @@ const HeaderPage = () => {
                         <Box >
                        <ButtonAuth/>
                         </Box>
+                        <MenuUser/>
                     </Toolbar>
                 </Container>
             </AppBar>
@@ -36,4 +38,4 @@ const HeaderPage = () => {
     )
 }
 
-export default HeaderPage
+export default Header

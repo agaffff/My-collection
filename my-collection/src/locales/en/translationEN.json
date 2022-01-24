@@ -12,6 +12,7 @@
    },
    "button": {
      "ButtonAddCollection":"Add Collection",
+     "ButtonEditCollection":"Edit Collection",
      "ButtonAddItem":"Add",
      "ButtonLogOut": "Log Out",
      "Cancel":"Cancel",

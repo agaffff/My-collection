@@ -4,7 +4,7 @@ import { removeUser } from 'store/slices/userSlice';
 import {useHistory } from "react-router-dom";
 import Button from '@mui/material/Button';
 import {useTranslation} from 'react-i18next';
-import EditCollection from 'components/EditCollection/EditCollection';
+import AddCollection from 'components/Collection/AddCollection';
 
 const ButtonAuth = () => {
 
@@ -15,7 +15,7 @@ const ButtonAuth = () => {
 
     return isAuth ?(
         <>
-        <EditCollection/>
+        <AddCollection/>
         <Button color="inherit" variant="outlined" onClick={()=> dispatch(removeUser())} >{t('button.ButtonLogOut')} {email}</Button>
         </>
     ) : (

@@ -12,6 +12,7 @@
    },
    "button": {
     "ButtonAddCollection":"Добавить коллекцию",
+    "ButtonEditCollection":"Редактировать коллекцию",
     "ButtonAddItem":"Добавить",
     "ButtonLogOut": "Выход",
     "Cancel":"Отмена",
