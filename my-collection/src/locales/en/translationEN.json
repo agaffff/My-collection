@@ -14,13 +14,17 @@
      "ButtonAddCollection":"Add Collection",
      "ButtonEditCollection":"Edit Collection",
      "ButtonAddItem":"Add",
+     "ButtonEditItem":"Edit",
      "ButtonLogOut": "Log Out",
      "Cancel":"Cancel",
      "Save":"Save"
     },
     "editcollection":{
          "Collection":"Collection",
+         "Last": "Latest added pictures",
+         "Item": "Item",
          "Pleasefillintheinformationaboutthecollection":"Please fill in the information about the collection.",
+         "Pleasefillintheinformationabouttheitem":"Please fill in the information about the item.",
          "Name":"Name",
          "Thema":"Thema",
          "Description":"Description",

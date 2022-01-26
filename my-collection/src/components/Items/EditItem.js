@@ -7,45 +7,49 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {useTranslation} from 'react-i18next';
 import {db} from "../../firebase";
-import {collection, getDocs, addDoc, doc} from "firebase/firestore";
-import { useState, useEffect } from 'react';
+import {getDoc, doc} from "firebase/firestore";
+import { useState} from 'react';
 import {useAuth} from 'hooks/use-auth';
+import { updateDoc } from "firebase/firestore";
 
 
-const EditItem=({perem}) => {
+const EditItem=({itemId,collectionRef}) => {
 
-const [newName, setNewName] = useState('');
-const [newTag, setNewTag] = useState('');
-
-const path = 'all-collections/';
-const CollectionRef = collection(db, path);
+const [Name, setName] = useState('');
+const [Tag, setTag] = useState('');
+const [open, setOpen] = useState(false);
 
 const {t} = useTranslation();
-const {id,isAuth} = useAuth();
-// useEffect(() => {
-//     const getCollection = async ()=>{
-//     const data = await getDocs(CollectionRef);
-//     setCollection(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
+const {isAuth} = useAuth();
 
-//     }
-//     getCollection();
-//   }, [])
+const getItemById = async () => {
+  const docRef = doc(db, collectionRef, itemId);
+  const docSnap = await getDoc(docRef);
 
-const createItem= async ()=>{
-  const itemsRef =collection(db, "all-collections/"+perem+"/items");
-  await addDoc(itemsRef, {
-    name:newName,
-    tag:newTag, 
-    userId:id ,
-    dateCreate: new Date()});
-   console.log("Added new item");
-   handleClose();
+  if (docSnap.exists()) {
+    setName(docSnap.data().name);
+    setTag(docSnap.data().tag);
+  } else {
+    console.log("No such document!");
+  }
 }
 //const res = await db.collection('items').doc('DC').delete();
-
-  const [open, setOpen] = useState(false);
-
+const handleUpdateItem = async (e) => {
+  e.preventDefault()
+  const taskDocRef = doc(db, collectionRef, itemId)
+  try{
+    await updateDoc(taskDocRef, {
+      name:Name,
+     tag:Tag, 
+    })
+    handleClose()
+  } catch (err) {
+    alert(err);
+  }    
+}
+  
   const handleClickOpen = () => {
+    getItemById();
     setOpen(true);
   };
 
@@ -57,14 +61,14 @@ const createItem= async ()=>{
     return (
         <>
            <Button  disabled={!isAuth} color="inherit" variant="outlined" onClick={handleClickOpen}>
-      {t('button.ButtonAddItem')}
+      {t('button.ButtonEditItem')}
       </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} >
       
-        <DialogTitle>{t('editcollection.Collection')}</DialogTitle>
+        <DialogTitle>{t('editcollection.Item')}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-          {t('editcollection.Pleasefillintheinformationaboutthecollection')}
+          {t('editcollection.Pleasefillintheinformationabouttheitem')}
           </DialogContentText>
           <TextField
             autoFocus
@@ -74,7 +78,8 @@ const createItem= async ()=>{
             type="text"
             fullWidth
             variant="standard"
-            onChange={(e)=>{setNewName(e.target.value)}}
+            value={Name}
+            onChange={(e)=>{setName(e.target.value)}}
           />
            <TextField
             autoFocus
@@ -84,13 +89,14 @@ const createItem= async ()=>{
             type="text"
             fullWidth
             variant="standard"
-            onChange={(e)=>{setNewTag(e.target.value)}}
+            value={Tag}
+            onChange={(e)=>{setTag(e.target.value)}}
           />
          
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>{t('button.Cancel')}</Button>
-          <Button onClick={createItem} >{t('button.Save')}</Button>
+          <Button onClick={handleUpdateItem} >{t('button.Save')}</Button>
         </DialogActions>
       </Dialog>
     </>

@@ -7,6 +7,7 @@ import { Grid, CardMedia, CardContent, CardActions, Button, IconButton, Containe
 import {db} from "../../firebase";
 import {collection, getDocs, addDoc} from "firebase/firestore";
 import {useAuth} from 'hooks/use-auth';
+import EditItem from "./EditItem";
 
 const Items = ({collectionId}) => {
 
@@ -44,7 +45,7 @@ const Items = ({collectionId}) => {
 
                         </CardContent>
                         <CardActions >
-                            <Button disabled={!isAuth} size="small" color="primary">Edit</Button>
+                            <EditItem disabled={!isAuth} size="small" color="primary" itemId={item.id} collectionRef={pathItems}/>
                                <IconButton disabled={!isAuth} >
                                <DeleteForever/>
                                </IconButton>

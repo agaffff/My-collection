@@ -13,12 +13,14 @@ const ButtonAuth = () => {
     const history = useHistory();
     const {t} = useTranslation();
 
+         
     return isAuth ?(
-        <>
-        <AddCollection/>
-        <Button color="inherit" variant="outlined" onClick={()=> dispatch(removeUser())} >{t('button.ButtonLogOut')} {email}</Button>
-        </>
-    ) : (
+         <>
+    <Button disabled="true" color="inherit" variant="outlined" onClick={() => history.push("/login")}>Войти</Button>
+    <Button disabled="true" color="secondary" variant="contained" onClick={() => history.push("/register")}>Регистрация</Button>
+        
+         </>
+     ) : (
         <>
         <Button color="inherit" variant="outlined" onClick={() => history.push("/login")}>Войти</Button>
         <Button color="secondary" variant="contained" onClick={() => history.push("/register")}>Регистрация</Button>

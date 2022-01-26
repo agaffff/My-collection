@@ -6,30 +6,42 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
+import AddCollection from 'components/Collection/AddCollection';
+import { Button} from "@mui/material";
+import { useAuth } from 'hooks/use-auth';
+import { useDispatch } from 'react-redux';
+import { removeUser } from 'store/slices/userSlice';
+import {useTranslation} from 'react-i18next';
+import {Link} from "react-router-dom";
+
+
 
 const MenuUser = () => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const dispatch = useDispatch();
+  const {t} = useTranslation();
+  const {isAuth, email} = useAuth();
+  //const [open, setOpen] = React.useState(false);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
     return (
        
         <React.Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Typography sx={{ minWidth: 100 }}>Contact</Typography>
-        <Typography sx={{ minWidth: 100 }}>Profile</Typography>
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
+            
             size="small"
             sx={{ ml: 2 }}
             aria-controls={open ? 'account-menu' : undefined}
@@ -42,10 +54,11 @@ const MenuUser = () => {
       </Box>
       <Menu
         anchorEl={anchorEl}
+        
         id="account-menu"
         open={open}
         onClose={handleClose}
-        onClick={handleClose}
+        // onClick={handleClose}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -75,30 +88,16 @@ const MenuUser = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
+        
         <MenuItem>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem>
-          <Avatar /> My account
+          <Avatar />  <Link to="/mycollections">My Collection</Link>
         </MenuItem>
         <Divider />
         <MenuItem>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
+          <AddCollection onClick={handleClose}/>
         </MenuItem>
         <MenuItem>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
+          <Button color="inherit" onClick={()=> dispatch(removeUser())} >{t('button.ButtonLogOut')} {email}</Button>
         </MenuItem>
       </Menu>
     </React.Fragment>

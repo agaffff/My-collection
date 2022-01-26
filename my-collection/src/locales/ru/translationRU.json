@@ -14,13 +14,17 @@
     "ButtonAddCollection":"Добавить коллекцию",
     "ButtonEditCollection":"Редактировать коллекцию",
     "ButtonAddItem":"Добавить",
+    "ButtonEditItem":"Редактировать",
     "ButtonLogOut": "Выход",
     "Cancel":"Отмена",
     "Save":"Сохранить"
    },
    "editcollection":{
     "Collection":"Коллекция",
+    "Last": "Последние добавленные картинки",
+    "Item": "Пункт",
     "Pleasefillintheinformationaboutthecollection":"Пожалуйста заполните информацию о коллекции.",
+    "Pleasefillintheinformationabouttheitem":"Пожалуйста заполните информацию о пункте.",
     "Name":"Название",
     "Thema":"Тема",
     "Description":"Описание",

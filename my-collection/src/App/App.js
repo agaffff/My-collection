@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import HomePage from 'pages/HomePage/HomePage';
+import MyHomePage from 'pages/HomePage/MyHomePage';
 import Login from 'components/Login/Login';
 import ChangerLanguage from 'components/ChangerLanguage/ChangerLanguage';
 import {Switch, Route} from 'react-router-dom';
@@ -43,6 +44,7 @@ function App() {
 
    <Switch>
      <Route exact path="/" component={HomePage}/>
+     <Route exact path="/mycollections" component={MyHomePage}/>
      <Route exact path="/login" component={Login}/>
      <Route exact path="/register" component={SignUp}/>
    </Switch>

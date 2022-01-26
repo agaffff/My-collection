@@ -29,20 +29,18 @@ const getCollectionById = async () => {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-    console.log("name:", docSnap.data().name);
+    
     setName(docSnap.data().name);
     setThema(docSnap.data().thema);
     setDescription(docSnap.data().description);
     setImage(docSnap.data().image);
     setAdvancedFields(docSnap.data().advancedfields);
   } else {
-    // doc.data() will be undefined in this case
     console.log("No such document!");
   }
 }
 
-const handleUpdate = async (e) => {
+const handleUpdateCollection = async (e) => {
   e.preventDefault()
   const taskDocRef = doc(db, "all-collections", collectionId)
   try{
@@ -55,7 +53,7 @@ const handleUpdate = async (e) => {
     })
     handleClose()
   } catch (err) {
-    alert(err)
+    alert(err);
   }    
 }
 
@@ -141,7 +139,7 @@ const handleUpdate = async (e) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>{t('button.Cancel')}</Button>
-          <Button onClick={handleUpdate} >{t('button.Save')}</Button>
+          <Button onClick={handleUpdateCollection} >{t('button.Save')}</Button>
         </DialogActions>
       </Dialog>
     </>

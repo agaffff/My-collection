@@ -1,29 +1,59 @@
 import { useState, useEffect } from "react";
- 
 import Card from '@mui/material/Card';
 import { DeleteForever } from "@mui/icons-material";
-import { CardMedia, CardContent, CardActions, Button, IconButton, Container, Typography, Paper, Box} from "@mui/material";
+import { CardMedia, CardContent, CardActions, IconButton, Container, Typography, Paper, Box} from "@mui/material";
 import {db} from "../../firebase";
-import {collection, getDocs, addDoc} from "firebase/firestore";
+import {collection, getDocs, query, where} from "firebase/firestore";
 import Items from "components/Items/Items";
 import {useAuth} from 'hooks/use-auth';
-import EditItem from "components/EditItem/EditItem";
 import EditCollection from "./EditCollection";
+import AddItem from "components/Items/AddItem";
+import { useTranslation } from "react-i18next";
 
-
-
-
-
-
-const Collection = () => {
+const Collection = ({isMyCollection}) => {
     
     const pathAll = 'all-collections/'
 
     const [collections, setCollections] = useState([]);
+
     const CollectionRef = collection(db, pathAll);
-    const {isAuth} = useAuth();
+    const {isAuth, id} = useAuth();
+    const {t} = useTranslation();
 
     useEffect(() => {
+
+        if (isMyCollection) {
+            const q = query(CollectionRef, where("userId", "==", id));
+            const getCollections = async () => {
+                const data = await getDocs(q);
+                setCollections(data.docs.map((doc) => ({
+                    ...doc.data(),
+                    id: doc.id
+                })));
+
+                collections.forEach((collection) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(collection.id, " => ", collections.data());
+                })
+            }
+            getCollections();
+        }
+        else
+        {
+            const getCollections = async () => {
+                const data = await getDocs(CollectionRef);
+                setCollections(data.docs.map((doc) => ({
+                    ...doc.data(),
+                    id: doc.id
+                })));
+            }
+            getCollections();
+        }
+      }, [])
+
+
+      /*
+      useEffect(() => {
         const getCollections = async ()=>{
         const data = await getDocs(CollectionRef);
         setCollections(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
@@ -31,19 +61,18 @@ const Collection = () => {
         }
         getCollections();
       }, [])
+      
+      */
     
     return (
         <div>
-             <main>
-                
-                
+            <main>
                 <Container >
-                    <Typography variant="h3">Последние добавленные картинки</Typography>
+                    <Typography variant="h3">{t('editcollection.Last')}</Typography>
                     <Box container spacing={4} >
                         {collections.map((collection)=>(
                             <Paper item key={collection} >
-                                <Card sx={{mt:"3rem"}}
-                                    >
+                                <Card sx={{mt:"3rem"}}>
                                     <CardMedia
                                     sx={{paddingTop:"10%",
                                          
@@ -64,17 +93,13 @@ const Collection = () => {
                                         <IconButton disabled={!isAuth}>
                                         <DeleteForever/>
                                         </IconButton>
-                                        <EditItem perem={collection.id}/>
+                                        <AddItem perem={collection.id}/>
                                     </CardActions>
                                 </Card>
-
                             </Paper>
                         ))}
-
                     </Box>
-
                 </Container>
-               
             </main>
         </div>
     )
