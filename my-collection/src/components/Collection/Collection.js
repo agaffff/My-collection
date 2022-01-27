@@ -9,12 +9,14 @@ import {useAuth} from 'hooks/use-auth';
 import EditCollection from "./EditCollection";
 import AddItem from "components/Items/AddItem";
 import { useTranslation } from "react-i18next";
+import DeleteCollection from "./DeleteCollection";
 
 const Collection = ({isMyCollection}) => {
     
     const pathAll = 'all-collections/'
 
     const [collections, setCollections] = useState([]);
+   const [hidden, setHidden] = useState(false);
 
     const CollectionRef = collection(db, pathAll);
     const {isAuth, id} = useAuth();
@@ -23,6 +25,7 @@ const Collection = ({isMyCollection}) => {
     useEffect(() => {
 
         if (isMyCollection) {
+            setHidden(false);
             const q = query(CollectionRef, where("userId", "==", id));
             const getCollections = async () => {
                 const data = await getDocs(q);
@@ -30,16 +33,12 @@ const Collection = ({isMyCollection}) => {
                     ...doc.data(),
                     id: doc.id
                 })));
-
-                collections.forEach((collection) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    console.log(collection.id, " => ", collections.data());
-                })
             }
             getCollections();
         }
         else
         {
+            setHidden(true);
             const getCollections = async () => {
                 const data = await getDocs(CollectionRef);
                 setCollections(data.docs.map((doc) => ({
@@ -51,19 +50,6 @@ const Collection = ({isMyCollection}) => {
         }
       }, [])
 
-
-      /*
-      useEffect(() => {
-        const getCollections = async ()=>{
-        const data = await getDocs(CollectionRef);
-        setCollections(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
-  
-        }
-        getCollections();
-      }, [])
-      
-      */
-    
     return (
         <div>
             <main>
@@ -89,11 +75,11 @@ const Collection = ({isMyCollection}) => {
 
                                     </CardContent>
                                     <CardActions>
+                                        <div hidden={hidden}>
                                         <EditCollection collectionId={collection.id}/>
-                                        <IconButton disabled={!isAuth}>
-                                        <DeleteForever/>
-                                        </IconButton>
+                                        <DeleteCollection collectionId={collection.id}/>
                                         <AddItem perem={collection.id}/>
+                                        </div>
                                     </CardActions>
                                 </Card>
                             </Paper>

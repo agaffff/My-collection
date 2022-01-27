@@ -6,13 +6,11 @@ const MyHomePage = () => {
   return (
     <>
       <Header />
-      <Collection isMyCollection={true}/>
-      <Container 
-      sx={{mt:"1rem"}}>
+      <Collection isMyCollection={true} />
+      <Container
+        sx={{ mt: "1rem" }}>
       </Container>
-    ) 
-)
-</>
+    </>
   )
 }
 

@@ -1,42 +1,49 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import Settings from '@mui/icons-material/Settings';
 import AddCollection from 'components/Collection/AddCollection';
 import { Button} from "@mui/material";
 import { useAuth } from 'hooks/use-auth';
 import { useDispatch } from 'react-redux';
+import { Fragment, useState} from 'react';
 import { removeUser } from 'store/slices/userSlice';
 import {useTranslation} from 'react-i18next';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 
 
 const MenuUser = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
+  const history = useHistory();
   const {t} = useTranslation();
-  const {isAuth, email} = useAuth();
-  //const [open, setOpen] = React.useState(false);
+  const {email} = useAuth();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
+
+  const logOut = () =>{
+    dispatch(removeUser());
+    console.log("removeUser");
+    history.push("/");
+    console.log("history.push");
+    handleClose();
+    console.log("handleClose");
+  };
+  
     return (
        
-        <React.Fragment>
+        <Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Account settings">
           <IconButton
@@ -97,10 +104,11 @@ const MenuUser = () => {
           <AddCollection onClick={handleClose}/>
         </MenuItem>
         <MenuItem>
-          <Button color="inherit" onClick={()=> dispatch(removeUser())} >{t('button.ButtonLogOut')} {email}</Button>
+          <Button color="inherit" onClick={logOut} >{t('button.ButtonLogOut')} {email}</Button>
+
         </MenuItem>
       </Menu>
-    </React.Fragment>
+    </Fragment>
   );
 
         
