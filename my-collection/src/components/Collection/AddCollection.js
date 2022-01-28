@@ -34,17 +34,18 @@ const {id} = useAuth();
 //     getCollection();
 //   }, [])
 
-const createCollection= async ()=>{
-    //await setDoc(doc(db, "cities", "new-city-id"), data);
-  await addDoc(CollectionRef, {name:newName,
-     thema:newThema, 
-     description:newDescription, 
-     image:newImage, 
-     advancedfields:newAdvancedFields,
-    userId:id ,
-    dateCreate: new Date()});
-
-    handleClose();
+const createCollection = async () => {
+  //await setDoc(doc(db, "cities", "new-city-id"), data);
+  await addDoc(CollectionRef, {
+    name: newName,
+    thema: newThema,
+    description: newDescription,
+    image: newImage,
+    advancedfields: newAdvancedFields,
+    userId: id,
+    dateCreate: new Date()
+  });
+  handleClose();
 }
 
 
@@ -61,7 +62,7 @@ const createCollection= async ()=>{
 
   return (
     <>
-      <Button color="inherit" variant="outlined" onClick={handleClickOpen}>
+      <Button type='link' onClick={handleClickOpen}>
       {t('button.ButtonAddCollection')}
       </Button>
       <Dialog open={open} onClose={handleClose}>

@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import { DeleteForever } from "@mui/icons-material";
 import { CardMedia, CardContent, CardActions, IconButton, Container, Typography, Paper, Box} from "@mui/material";
 import {db} from "../../firebase";
-import {collection, getDocs, query, where} from "firebase/firestore";
+import {collection, getDocs, query, where, onSnapshot} from "firebase/firestore";
 import Items from "components/Items/Items";
 import {useAuth} from 'hooks/use-auth';
 import EditCollection from "./EditCollection";
@@ -12,20 +12,30 @@ import { useTranslation } from "react-i18next";
 import DeleteCollection from "./DeleteCollection";
 
 const Collection = ({isMyCollection}) => {
-    
     const pathAll = 'all-collections/'
 
     const [collections, setCollections] = useState([]);
-   const [hidden, setHidden] = useState(false);
-
+    const [hidden, setHidden] = useState(false);
     const CollectionRef = collection(db, pathAll);
     const {isAuth, id} = useAuth();
     const {t} = useTranslation();
 
-    useEffect(() => {
+    
 
+    // const q = query(collection(db, "all-collections/"), where("state", "==", "CA"));
+    // const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    //   const cities = [];
+    //   querySnapshot.forEach((doc) => {
+    //       cities.push(doc.data().name);
+    //   });
+    //   console.log("Current cities in CA: ", cities.join(", "));
+    // });
+
+
+    useEffect(() => {
         if (isMyCollection) {
             setHidden(false);
+           
             const q = query(CollectionRef, where("userId", "==", id));
             const getCollections = async () => {
                 const data = await getDocs(q);
@@ -48,7 +58,7 @@ const Collection = ({isMyCollection}) => {
             }
             getCollections();
         }
-      }, [])
+      }, [id])
 
     return (
         <div>
@@ -71,7 +81,7 @@ const Collection = ({isMyCollection}) => {
                                    {collection.name}
                                    
                                     </Typography>
-                                    <Items collectionId={collection.id}  />
+                                    <Items collectionId={collection.id} isMyCollection={isMyCollection} />
 
                                     </CardContent>
                                     <CardActions>

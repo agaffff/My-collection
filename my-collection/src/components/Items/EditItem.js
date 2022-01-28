@@ -60,7 +60,7 @@ const handleUpdateItem = async (e) => {
 
     return (
         <>
-           <Button  disabled={!isAuth} color="inherit" variant="outlined" onClick={handleClickOpen}>
+           <Button  disabled={!isAuth} type='link' onClick={handleClickOpen}>
       {t('button.ButtonEditItem')}
       </Button>
       <Dialog open={open} >

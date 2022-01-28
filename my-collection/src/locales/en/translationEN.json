@@ -13,7 +13,7 @@
    "button": {
      "ButtonAddCollection":"Add Collection",
      "ButtonEditCollection":"Edit Collection",
-     "ButtonAddItem":"Add",
+     "ButtonAddItem":"Add Item",
      "ButtonEditItem":"Edit",
      "ButtonLogOut": "Log Out",
      "Cancel":"Cancel",

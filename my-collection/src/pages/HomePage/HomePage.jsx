@@ -10,7 +10,7 @@ const HomePage = () => {
       <Container 
       sx={{mt:"1rem"}}>
       </Container>
-</>
+    </>
   )
 }
 

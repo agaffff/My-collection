@@ -12,13 +12,15 @@ const ButtonAuth = () => {
     const {isAuth, email} = useAuth();
     const history = useHistory();
     const {t} = useTranslation();
+    const hidden = false;
 
          
     return isAuth ?(
          <>
-    <Button disabled="true" color="inherit" variant="outlined" onClick={() => history.push("/login")}>Войти</Button>
-    <Button disabled="true" color="secondary" variant="contained" onClick={() => history.push("/register")}>Регистрация</Button>
-        
+         <div hidden={true}>
+    <Button  color="inherit" variant="outlined" onClick={() => history.push("/login")}>Войти</Button>
+    <Button color="secondary" variant="contained" onClick={() => history.push("/register")}>Регистрация</Button>
+    </div>
          </>
      ) : (
         <>

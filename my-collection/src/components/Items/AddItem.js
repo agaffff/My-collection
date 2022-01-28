@@ -56,7 +56,7 @@ const createItem= async ()=>{
 
     return (
         <>
-           <Button  disabled={!isAuth} color="inherit" variant="outlined" onClick={handleClickOpen}>
+           <Button  disabled={!isAuth} type='link' onClick={handleClickOpen}>
       {t('button.ButtonAddItem')}
       </Button>
       <Dialog open={open} onClose={handleClose}>

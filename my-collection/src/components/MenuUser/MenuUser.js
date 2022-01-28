@@ -6,14 +6,13 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import AddCollection from 'components/Collection/AddCollection';
-import { Button} from "@mui/material";
+import { Button } from "@mui/material";
 import { useAuth } from 'hooks/use-auth';
 import { useDispatch } from 'react-redux';
 import { Fragment, useState} from 'react';
-import { removeUser } from 'store/slices/userSlice';
 import {useTranslation} from 'react-i18next';
 import {Link, useHistory} from "react-router-dom";
-
+import { getAuth, signOut } from "firebase/auth";
 
 
 const MenuUser = () => {
@@ -22,7 +21,7 @@ const MenuUser = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const {t} = useTranslation();
-  const {email} = useAuth();
+  const {email, isAuth} = useAuth();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -33,8 +32,16 @@ const MenuUser = () => {
   };
 
   const logOut = () =>{
-    dispatch(removeUser());
-    console.log("removeUser");
+    // dispatch(removeUser());
+    // console.log("removeUser");
+    const auth = getAuth();
+    
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+    });
+    console.log("signOut")
     history.push("/");
     console.log("history.push");
     handleClose();
@@ -42,7 +49,7 @@ const MenuUser = () => {
   };
   
     return (
-       
+       <div hidden={!isAuth}>
         <Fragment>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Account settings">
@@ -95,7 +102,6 @@ const MenuUser = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        
         <MenuItem>
           <Avatar />  <Link to="/mycollections">My Collection</Link>
         </MenuItem>
@@ -104,11 +110,11 @@ const MenuUser = () => {
           <AddCollection onClick={handleClose}/>
         </MenuItem>
         <MenuItem>
-          <Button color="inherit" onClick={logOut} >{t('button.ButtonLogOut')} {email}</Button>
-
+          <Button type='link' onClick={logOut} >{t('button.ButtonLogOut')} {email}</Button>
         </MenuItem>
       </Menu>
     </Fragment>
+    </div>
   );
 
         
