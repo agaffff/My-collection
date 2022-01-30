@@ -55,24 +55,20 @@ const MenuUser = () => {
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
-            
             size="small"
             sx={{ ml: 2 }}
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-          >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            aria-expanded={open ? 'true' : undefined} >
+            <Avatar />
           </IconButton>
         </Tooltip>
       </Box>
       <Menu
         anchorEl={anchorEl}
-        
         id="account-menu"
         open={open}
         onClose={handleClose}
-        // onClick={handleClose}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -103,7 +99,10 @@ const MenuUser = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem>
-          <Avatar />  <Link to="/mycollections">My Collection</Link>
+            <Link to="/mycollections">My Collection</Link>
+        </MenuItem>
+        <MenuItem>
+            <Link to="/">All Collection</Link>
         </MenuItem>
         <Divider />
         <MenuItem>

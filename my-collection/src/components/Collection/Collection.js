@@ -62,7 +62,8 @@ const Collection = ({isMyCollection}) => {
                                     <CardMedia 
                                     sx={{paddingTop:"10%",
                                          height:"100px"}}
-                                    image="https://source.unsplash.com/random"
+                                    //image="https://source.unsplash.com/random"
+                                    image={collection.image}
                                     title="image title"/>
                                     
                                     <CardContent>
@@ -75,7 +76,7 @@ const Collection = ({isMyCollection}) => {
                                     </CardContent>
                                     <CardActions>
                                         <div hidden={hidden}>
-                                        <EditCollection collectionId={collection.id}/>
+                                        <EditCollection collectionId={collection.id} collectionRef={pathAll}/>
                                         <DeleteCollection collectionId={collection.id}/>
                                         <AddItem collectionId={collection.id}/>
                                         </div>

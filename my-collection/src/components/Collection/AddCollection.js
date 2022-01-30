@@ -10,9 +10,11 @@ import {db} from "../../firebase";
 import {collection, getDocs, addDoc} from "firebase/firestore";
 import { useState, useEffect } from 'react';
 import {useAuth} from 'hooks/use-auth';
+import { getStorage, ref , uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import LoadImage from 'components/LoadImage/LoadImage';
 
 
-const AddCollection=({pathEdit})=> {
+const AddCollection=()=> {
 
 const [newName, setNewName] = useState('');
 const [newThema, setNewThema] = useState('');
@@ -25,27 +27,80 @@ const CollectionRef = collection(db, path);
 
 const {t} = useTranslation();
 const {id} = useAuth();
-// useEffect(() => {
-//     const getCollection = async ()=>{
-//     const data = await getDocs(CollectionRef);
-//     setCollection(data.docs.map((doc)=>({...doc.data(), id:doc.id})));
+const [image, setImage] = useState('');
 
-//     }
-//     getCollection();
-//   }, [])
 
-const createCollection = async () => {
-  //await setDoc(doc(db, "cities", "new-city-id"), data);
+const handleCreateCollection = async (e) => {
+  e.preventDefault()
+  
+  if ((typeof image) == "string" || (typeof image == "undefined")) {
+    console.log("handleUpdateCollection updateCollection('')");
+    createCollection('');
+  } else {
+    console.log("handleUpdateCollection updateCollectionAndImage()");
+    createCollectionAndImage();
+  }
+  handleClose();
+}
+
+const createCollectionAndImage = async () => {
+  const storage = getStorage();
+  // Create the file metadata
+  /** @type {any} */
+  const metadata = {
+    contentType: 'image/jpeg'
+  };
+
+  // Upload file and metadata to the object 'images/image_***.jpg'
+  const storageRef = ref(storage, 'images/' + image.name);
+  const uploadTask = uploadBytesResumable(storageRef, image, metadata);
+
+  uploadTask.on('state_changed',
+    (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is ' + progress + '% done');
+      switch (snapshot.state) {
+        case 'paused':
+          console.log('Upload is paused');
+          break;
+        case 'running':
+          console.log('Upload is running');
+          break;
+      }
+    },
+    (error) => {
+      switch (error.code) {
+        case 'storage/unauthorized':
+          console.log('User doesn t have permission to access the object');
+          break;
+        case 'storage/canceled':
+          console.log('User canceled the upload');
+          break;
+        case 'storage/unknown':
+          console.log('Unknown error occurred, inspect error.serverResponse');
+          break;
+      }
+    },
+    () => {
+      // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        console.log('File available at: ', downloadURL);
+        createCollection(downloadURL);
+      });
+    }
+  );
+}
+
+const createCollection = async (newUrl) => {
   await addDoc(CollectionRef, {
     name: newName,
     thema: newThema,
     description: newDescription,
-    image: newImage,
+    image: newUrl,
     advancedfields: newAdvancedFields,
     userId: id,
     dateCreate: new Date()
   });
-  handleClose();
 }
 
 
@@ -102,16 +157,7 @@ const createCollection = async () => {
             variant="standard"
             onChange={(e)=>{setNewDescription(e.target.value)}}
           />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="image"
-            label={t('editcollection.Image')}
-            type="url"
-            fullWidth
-            variant="standard"
-            onChange={(e)=>{setNewImage(e.target.value)}}
-          />
+          <LoadImage value={image} onChange={setImage}/>
           <TextField
             autoFocus
             margin="dense"
@@ -127,7 +173,7 @@ const createCollection = async () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>{t('button.Cancel')}</Button>
-          <Button onClick={createCollection} >{t('button.Save')}</Button>
+          <Button onClick={handleCreateCollection} >{t('button.Save')}</Button>
         </DialogActions>
       </Dialog>
     </>
