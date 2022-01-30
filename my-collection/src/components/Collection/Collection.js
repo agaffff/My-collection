@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import Card from '@mui/material/Card';
-import { DeleteForever } from "@mui/icons-material";
-import { CardMedia, CardContent, CardActions, IconButton, Container, Typography, Paper, Box} from "@mui/material";
+import { CardMedia, CardContent, CardActions, Container, Typography, Paper, Box} from "@mui/material";
 import {db} from "../../firebase";
-import {collection, getDocs, query, where, onSnapshot} from "firebase/firestore";
+import {collection, getDocs, query, where} from "firebase/firestore";
 import Items from "components/Items/Items";
 import {useAuth} from 'hooks/use-auth';
 import EditCollection from "./EditCollection";
@@ -11,26 +10,16 @@ import AddItem from "components/Items/AddItem";
 import { useTranslation } from "react-i18next";
 import DeleteCollection from "./DeleteCollection";
 
+
 const Collection = ({isMyCollection}) => {
     const pathAll = 'all-collections/'
 
     const [collections, setCollections] = useState([]);
     const [hidden, setHidden] = useState(false);
     const CollectionRef = collection(db, pathAll);
-    const {isAuth, id} = useAuth();
+    const {id} = useAuth();
     const {t} = useTranslation();
-
-    
-
-    // const q = query(collection(db, "all-collections/"), where("state", "==", "CA"));
-    // const unsubscribe = onSnapshot(q, (querySnapshot) => {
-    //   const cities = [];
-    //   querySnapshot.forEach((doc) => {
-    //       cities.push(doc.data().name);
-    //   });
-    //   console.log("Current cities in CA: ", cities.join(", "));
-    // });
-
+   
 
     useEffect(() => {
         if (isMyCollection) {
@@ -59,23 +48,23 @@ const Collection = ({isMyCollection}) => {
             getCollections();
         }
       }, [id])
-
+      
     return (
         <div>
+
             <main>
                 <Container >
                     <Typography variant="h3">{t('editcollection.Last')}</Typography>
                     <Box container spacing={4} >
                         {collections.map((collection)=>(
                             <Paper item key={collection} >
-                                <Card sx={{mt:"3rem"}}>
-                                    <CardMedia
+                                <Card sx={{mt:"3rem"}} >
+                                    <CardMedia 
                                     sx={{paddingTop:"10%",
-                                         
                                          height:"100px"}}
-                                                     
                                     image="https://source.unsplash.com/random"
                                     title="image title"/>
+                                    
                                     <CardContent>
                                     <Typography variant="h5">
                                    {collection.name}
@@ -88,7 +77,7 @@ const Collection = ({isMyCollection}) => {
                                         <div hidden={hidden}>
                                         <EditCollection collectionId={collection.id}/>
                                         <DeleteCollection collectionId={collection.id}/>
-                                        <AddItem perem={collection.id}/>
+                                        <AddItem collectionId={collection.id}/>
                                         </div>
                                     </CardActions>
                                 </Card>

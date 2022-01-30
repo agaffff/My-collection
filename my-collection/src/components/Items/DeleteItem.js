@@ -3,10 +3,10 @@ import { IconButton } from "@mui/material";
 import {db} from "../../firebase";
 import { deleteDoc, doc } from "firebase/firestore"
 
-const DeleteCollection = ({collectionId}) => {
-   
+const DeleteItem = ({itemId,collectionRef}) => {
+ console.log("itemId "+itemId +" collectionRef "+collectionRef);
 const handleDelete = async () => {
-    const taskDocRef = doc(db, "/all-collections", collectionId)
+    const taskDocRef = doc(db, collectionRef, itemId)
     try{
       await deleteDoc(taskDocRef)
     } catch (err) {
@@ -21,4 +21,4 @@ const handleDelete = async () => {
   )
 }
 
-  export default DeleteCollection
+  export default DeleteItem

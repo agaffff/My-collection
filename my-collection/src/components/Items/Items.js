@@ -8,14 +8,17 @@ import {db} from "../../firebase";
 import {collection, getDocs, addDoc} from "firebase/firestore";
 import {useAuth} from 'hooks/use-auth';
 import EditItem from "./EditItem";
+import DeleteItem from "./DeleteItem";
 
-const Items = ({collectionId, isMyCollection}) => {
+const Items = ({collectionId, isMyCollection,itemId}) => {
 
     const pathItems = 'all-collections/'+collectionId+'/items/';
     const [items, setItems] = useState([]);
     const itemsCollectionRef = collection(db, pathItems);
     const {isAuth} = useAuth();
     const [hidden, setHidden] = useState(false);
+    
+
     console.log("render Items collectionId:"+collectionId+" isMyCollection:"+isMyCollection )
     
     
@@ -42,7 +45,8 @@ const Items = ({collectionId, isMyCollection}) => {
                     <Card sx={{mt:"3rem", mb:"6rem", height:250, width:250 }}>
                         <CardMedia
                             sx={{paddingTop:"50%" }}
-                            image="https://source.unsplash.com/random"
+                            // image="https://source.unsplash.com/random"
+                            image={item.img}
                             title="image title"/>
                                   
                         <CardContent>
@@ -54,9 +58,7 @@ const Items = ({collectionId, isMyCollection}) => {
                         <CardActions >
                             <div hidden={hidden}>
                             <EditItem  size="small" color="primary" itemId={item.id} collectionRef={pathItems}/>
-                               <IconButton  >
-                               <DeleteForever/>
-                               </IconButton>
+                                <DeleteItem itemId={item.id} collectionRef={pathItems}/>
                                </div>
                         </CardActions>
                     </Card>
