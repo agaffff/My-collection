@@ -60,7 +60,7 @@ const handleUpdateCollection = async (e) => {
     console.log("handleUpdateCollection updateCollectionAndImage()");
     updateCollectionAndImage();
   }
-  changeCounter();
+  
   handleClose();
 }
 
@@ -118,6 +118,7 @@ const handleUpdateCollection = async (e) => {
      description:Description,
      advancedFields:AdvancedFields 
     })
+    changeCounter();
   } else{ 
     await updateDoc(taskDocRef, {
       name:Name,
@@ -126,6 +127,7 @@ const handleUpdateCollection = async (e) => {
      description:Description,
      advancedFields:AdvancedFields 
     })
+    changeCounter();
   }
 } catch (err) {
     alert(err);
