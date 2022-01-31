@@ -7,11 +7,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {useTranslation} from 'react-i18next';
 import {db} from "../../firebase";
-import {collection, getDocs, addDoc} from "firebase/firestore";
-import { useState, useEffect } from 'react';
+import {collection, addDoc} from "firebase/firestore";
+import { useState} from 'react';
 import {useAuth} from 'hooks/use-auth';
 import { getStorage, ref , uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import LoadImage from 'components/LoadImage/LoadImage';
+import {useDispatch} from 'react-redux';
+import {setCounter} from 'store/slices/counterSlice';
 
 
 const AddCollection=()=> {
@@ -19,8 +21,8 @@ const AddCollection=()=> {
 const [newName, setNewName] = useState('');
 const [newThema, setNewThema] = useState('');
 const [newDescription, setNewDescription] = useState('');
-const [newImage, setNewImage] = useState('');
 const [newAdvancedFields, setNewAdvancedFields] = useState('');
+const dispatch =useDispatch();
 
 const path = 'all-collections/';
 const CollectionRef = collection(db, path);
@@ -29,6 +31,10 @@ const {t} = useTranslation();
 const {id} = useAuth();
 const [image, setImage] = useState('');
 
+const changeCounter = ()=>{
+  dispatch(setCounter({
+      count: Math.floor(Math.random() * 100) + 1
+}))};
 
 const handleCreateCollection = async (e) => {
   e.preventDefault()
@@ -40,6 +46,7 @@ const handleCreateCollection = async (e) => {
     console.log("handleUpdateCollection updateCollectionAndImage()");
     createCollectionAndImage();
   }
+  
   handleClose();
 }
 
@@ -101,6 +108,7 @@ const createCollection = async (newUrl) => {
     userId: id,
     dateCreate: new Date()
   });
+  changeCounter();
 }
 
 

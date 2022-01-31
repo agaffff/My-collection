@@ -8,7 +8,10 @@
     },
 
     "homepage": {
-        "title": "Title"
+        "title": "Title",
+        "MyCollections":"Мои коллекции",
+        "MyCollection":"Моя коллекция",
+        "AllCollections":"Все коллекции"
    },
    "button": {
     "ButtonAddCollection":"Добавить коллекцию",
@@ -17,7 +20,9 @@
     "ButtonEditItem":"Редактировать",
     "ButtonLogOut": "Выход",
     "Cancel":"Отмена",
-    "Save":"Сохранить"
+    "Save":"Сохранить",
+    "Enter":"Войти",
+    "Registration":"Регистрация"
    },
    "editcollection":{
     "Collection":"Коллекция",

@@ -9,17 +9,19 @@ import EditCollection from "./EditCollection";
 import AddItem from "components/Items/AddItem";
 import { useTranslation } from "react-i18next";
 import DeleteCollection from "./DeleteCollection";
+import { useCounter } from "hooks/use-counter";
 
 
 const Collection = ({isMyCollection}) => {
     const pathAll = 'all-collections/'
+
 
     const [collections, setCollections] = useState([]);
     const [hidden, setHidden] = useState(false);
     const CollectionRef = collection(db, pathAll);
     const {id} = useAuth();
     const {t} = useTranslation();
-   
+    const {count} = useCounter();
 
     useEffect(() => {
         if (isMyCollection) {
@@ -34,10 +36,19 @@ const Collection = ({isMyCollection}) => {
                 })));
             }
             getCollections();
-        }
-        else
-        {
+        } else {
             setHidden(true);
+
+            // const q = query(CollectionRef, where("userId", "==", id));
+            // const getCollections = async () => {
+            //     const data = await getDocs(q);
+            //     setCollections(data.docs.map((doc) => ({
+            //         ...doc.data(),
+            //         id: doc.id
+            //     })));
+            // }
+            // getCollections();
+        
             const getCollections = async () => {
                 const data = await getDocs(CollectionRef);
                 setCollections(data.docs.map((doc) => ({
@@ -47,11 +58,10 @@ const Collection = ({isMyCollection}) => {
             }
             getCollections();
         }
-      }, [id])
+      }, [id, count])
       
     return (
         <div>
-
             <main>
                 <Container >
                     <Typography variant="h3">{t('editcollection.Last')}</Typography>
@@ -61,15 +71,12 @@ const Collection = ({isMyCollection}) => {
                                 <Card sx={{mt:"3rem"}} >
                                     <CardMedia 
                                     sx={{paddingTop:"10%",
-                                         height:"100px"}}
-                                    //image="https://source.unsplash.com/random"
+                                         height:"200px"}}
                                     image={collection.image}
                                     title="image title"/>
-                                    
                                     <CardContent>
                                     <Typography variant="h5">
                                    {collection.name}
-                                   
                                     </Typography>
                                     <Items collectionId={collection.id} isMyCollection={isMyCollection} />
 

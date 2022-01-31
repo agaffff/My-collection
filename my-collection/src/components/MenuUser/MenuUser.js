@@ -99,10 +99,10 @@ const MenuUser = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem>
-            <Link to="/mycollections">My Collection</Link>
+            <Link to="/mycollections">{t('homepage.MyCollection')}</Link>
         </MenuItem>
         <MenuItem>
-            <Link to="/">All Collection</Link>
+            <Link to="/">{t('homepage.AllCollections')}</Link>
         </MenuItem>
         <Divider />
         <MenuItem>

@@ -13,15 +13,16 @@ import { useState} from 'react';
 import { useAuth } from 'hooks/use-auth';
 import { updateDoc } from "firebase/firestore";
 import LoadImage from 'components/LoadImage/LoadImage';
+import {useDispatch} from 'react-redux';
+import {setCounter} from 'store/slices/counterSlice';
 
 const EditItem=({itemId,collectionRef}) => {
 
+const dispatch =useDispatch();
 const [Name, setName] = useState('');
 const [Tag, setTag] = useState('');
 const [image, setImage] = useState(null);
-
 const [open, setOpen] = useState(false);
-
 const {t} = useTranslation();
 const {isAuth} = useAuth();
 
@@ -38,30 +39,28 @@ const getItemById = async () => {
   }
 };
 
+const changeCounter = ()=>{
+    dispatch(setCounter({
+        count: Math.floor(Math.random() * 100) + 1
+  }))};
+
 const handleUpdateItem = async (e) => {
       e.preventDefault()
-
-      console.log("(typeof image):" +(typeof image))
-
       if ((typeof image) == "string" || (typeof image == "undefined")) {
-        console.log("handleUpdateItem updateItem('')");
         updateItem('');
       } else {
-        console.log("handleUpdateItem updateItemAndImage()");
         updateItemAndImage();
       }
+      changeCounter();
       handleClose();
 }
 
 const updateItemAndImage = async () => {
   const storage = getStorage();
-  // Create the file metadata
-  /** @type {any} */
   const metadata = {
     contentType: 'image/jpeg'
   };
 
-  // Upload file and metadata to the object 'images/image_***.jpg'
   const storageRef = ref(storage, 'images/' + image.name);
   const uploadTask = uploadBytesResumable(storageRef, image, metadata);
 
@@ -92,7 +91,6 @@ const updateItemAndImage = async () => {
       }
     },
     () => {
-      // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
         console.log('File available at: ', downloadURL);
         updateItem(downloadURL);
@@ -105,14 +103,11 @@ const updateItemAndImage = async () => {
     const taskDocRef = doc(db, collectionRef, itemId)
     try {
       if (newUrl == '') {
-        console.log("Обновляем без картинки");
         await updateDoc(taskDocRef, {
           name: Name,
           tag: Tag
         })
       } else {
-        console.log("Обновляем с новой картинкой");
-        console.log("newUrl:"+newUrl);
         await updateDoc(taskDocRef, {
           name: Name,
           tag: Tag,
@@ -135,8 +130,8 @@ const updateItemAndImage = async () => {
 
 
     return (
-        <>
-           <Button  disabled={!isAuth} type='link' onClick={handleClickOpen}>
+    <>
+      <Button  disabled={!isAuth} type='link' onClick={handleClickOpen}>
       {t('button.ButtonEditItem')}
       </Button>
       <Dialog open={open} >

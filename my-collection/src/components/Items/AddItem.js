@@ -12,15 +12,25 @@ import { useState} from 'react';
 import {useAuth} from 'hooks/use-auth';
 import LoadImage from 'components/LoadImage/LoadImage';
 import { getStorage, ref , uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {useDispatch} from 'react-redux';
+import {setCounter} from 'store/slices/counterSlice';
 
 
 const AddItem=({collectionId}) => {
 
+const dispatch =useDispatch();
 const [newName, setNewName] = useState('');
 const [newTag, setNewTag] = useState('');
 const {t} = useTranslation();
 const {id,isAuth} = useAuth();
 const [image, setImage] = useState('');
+const [open, setOpen] = useState(false);
+
+
+const changeCounter = ()=>{
+  dispatch(setCounter({
+      count: Math.floor(Math.random() * 100) + 1
+}))};
 
 
 const handleCreateItem = async (e) => {
@@ -31,18 +41,16 @@ const handleCreateItem = async (e) => {
   } else {
     createItemAndImage();
   }
+  
   handleClose();
 }
 
 const createItemAndImage = async () => {
 const storage = getStorage();
-// Create the file metadata
-/** @type {any} */
 const metadata = {
 contentType: 'image/jpeg'
 };
 
-// Upload file and metadata to the object 'images/image_***.jpg'
 const storageRef = ref(storage, 'images/' + image.name);
 const uploadTask = uploadBytesResumable(storageRef, image, metadata);
 
@@ -73,7 +81,6 @@ uploadTask.on('state_changed',
   }
 },
 () => {
-  // Upload completed successfully, now we can get the download URL
     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
     console.log('File available at: ', downloadURL);
     createItem(downloadURL);
@@ -91,13 +98,11 @@ const createItem= async (newUrl)=>{
     img: newUrl,
     userId:id ,
     dateCreate: new Date()});
-   console.log("Added new item");
+   changeCounter();
   } catch (err) {
     alert(err);
   }
 }
-
-  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -107,13 +112,12 @@ const createItem= async (newUrl)=>{
     setOpen(false);
   };
 
-
     return (
-        <>
-           <Button  disabled={!isAuth} type='link' onClick={handleClickOpen}>
-      {t('button.ButtonAddItem')}
-      </Button>
-      <Dialog open={open} onClose={handleClose}>
+    <>
+        <Button  disabled={!isAuth} type='link' onClick={handleClickOpen}>
+        {t('button.ButtonAddItem')}
+        </Button>
+        <Dialog open={open} onClose={handleClose}>
       
         <DialogTitle>{t('editcollection.Collection')}</DialogTitle>
         <DialogContent>

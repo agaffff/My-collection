@@ -13,6 +13,8 @@ import {useAuth} from 'hooks/use-auth';
 import { doc, updateDoc } from "firebase/firestore";
 import { getStorage, ref , uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import LoadImage from 'components/LoadImage/LoadImage';
+import {useDispatch} from 'react-redux';
+import {setCounter} from 'store/slices/counterSlice';
 
 
 const EditCollection=({collectionId})=> {
@@ -21,6 +23,7 @@ const [Thema, setThema] = useState('');
 const [Description, setDescription] = useState('');
 const [image, setImage] = useState('');
 const [AdvancedFields, setAdvancedFields] = useState('');
+const dispatch =useDispatch();
 
 const {t} = useTranslation();
 const [open, setOpen] = useState(false);
@@ -42,6 +45,11 @@ const getCollectionById = async () => {
   }
 }
 
+const changeCounter = ()=>{
+  dispatch(setCounter({
+      count: Math.floor(Math.random() * 100) + 1
+}))};
+
 const handleUpdateCollection = async (e) => {
   e.preventDefault()
   
@@ -52,18 +60,16 @@ const handleUpdateCollection = async (e) => {
     console.log("handleUpdateCollection updateCollectionAndImage()");
     updateCollectionAndImage();
   }
+  changeCounter();
   handleClose();
 }
 
   const updateCollectionAndImage = async () => {
     const storage = getStorage();
-    // Create the file metadata
-    /** @type {any} */
     const metadata = {
       contentType: 'image/jpeg'
     };
   
-    // Upload file and metadata to the object 'images/image_***.jpg'
     const storageRef = ref(storage, 'images/' + image.name);
     const uploadTask = uploadBytesResumable(storageRef, image, metadata);
   
@@ -94,7 +100,6 @@ const handleUpdateCollection = async (e) => {
         }
       },
       () => {
-        // Upload completed successfully, now we can get the download URL
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log('File available at: ', downloadURL);
           updateCollection(downloadURL);
@@ -126,7 +131,6 @@ const handleUpdateCollection = async (e) => {
     alert(err);
   }    
 }
-
 
   const handleClickOpen = () => {
     getCollectionById();

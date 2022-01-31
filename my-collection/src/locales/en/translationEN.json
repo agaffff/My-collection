@@ -8,7 +8,10 @@
    },
 
    "homepage": {
-        "title": "Title"
+        "title": "Title",
+        "MyCollections":"My Collections",
+        "MyCollection":"My Collection",
+        "AllCollections":"AllCollections"
    },
    "button": {
      "ButtonAddCollection":"Add Collection",
@@ -17,7 +20,10 @@
      "ButtonEditItem":"Edit",
      "ButtonLogOut": "Log Out",
      "Cancel":"Cancel",
-     "Save":"Save"
+     "Save":"Save",
+     "Enter":"Enter",
+     "Registration":"Registration"
+
     },
     "editcollection":{
          "Collection":"Collection",
