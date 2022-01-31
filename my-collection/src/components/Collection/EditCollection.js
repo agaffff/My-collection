@@ -54,10 +54,8 @@ const handleUpdateCollection = async (e) => {
   e.preventDefault()
   
   if ((typeof image) == "string" || (typeof image == "undefined")) {
-    console.log("handleUpdateCollection updateCollection('')");
     updateCollection('');
   } else {
-    console.log("handleUpdateCollection updateCollectionAndImage()");
     updateCollectionAndImage();
   }
   

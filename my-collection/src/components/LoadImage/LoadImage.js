@@ -25,13 +25,11 @@ const LoadImage=({value, onChange})=> {
     if(!isDrop)
     {
       setUrlImageUpload(value);
-      console.log("typeof(value)"+typeof(value));
     }
   }, [value]);
   
 
 const onDrop = useCallback((acceptedFiles) => {
-            console.log("typeof(acceptedFiles): "+typeof(acceptedFiles));
             setLoading(true);
             onChange(acceptedFiles[0]); 
             setIsDrop(true);

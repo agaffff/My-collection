@@ -51,7 +51,7 @@ const handleUpdateItem = async (e) => {
       } else {
         updateItemAndImage();
       }
-      changeCounter();
+      
       handleClose();
 }
 
@@ -106,13 +106,15 @@ const updateItemAndImage = async () => {
         await updateDoc(taskDocRef, {
           name: Name,
           tag: Tag
-        })
+        });
+        changeCounter();
       } else {
         await updateDoc(taskDocRef, {
           name: Name,
           tag: Tag,
           img: newUrl
-        })
+        });
+        changeCounter();
       }
     } catch (err) {
       alert(err);
